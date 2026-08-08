@@ -30,7 +30,10 @@ import RealEstateProperties from "./pages/RealEstateProperties";
 import RealEstateProperty from "./pages/RealEstateProperty";
 import RealEstateInspection from "./pages/RealEstateInspection";
 
+// Admin
+import AdminDashboard from "./pages/AdminDashboard";
 function Router() {
+  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       {/* Main */}
@@ -56,6 +59,9 @@ function Router() {
       <Route path="/real-estate/properties" component={RealEstateProperties} />
       <Route path="/real-estate/property/:slug" component={RealEstateProperty} />
       <Route path="/real-estate/inspection" component={RealEstateInspection} />
+
+      {/* Admin */}
+      <Route path="/admin" component={AdminDashboard} />
 
       {/* 404 */}
       <Route path="/404" component={NotFound} />
