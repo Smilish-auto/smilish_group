@@ -102,21 +102,14 @@ own credentials.
 
 ### 1. Push the code to GitHub
 
-From inside the `smilish-group` folder:
-
-```bash
-git init
-git add .
-git commit -m "Initial commit: Smilish Group Phase 1 website"
-```
-
-Create a new, empty repository on GitHub (no README/license, so it doesn't
-conflict with what you just committed) — either on github.com or with the
-GitHub CLI:
+This folder is already a git repo with an initial commit made. From inside
+the `smilish-group` folder, create a new, empty repository on GitHub (no
+README/license, so it doesn't conflict with what's already committed) —
+either on github.com or with the GitHub CLI:
 
 ```bash
 gh repo create smilish-group --private --source=. --remote=origin
-git push -u origin main
+git push -u origin master
 ```
 
 Or without the CLI: create the repo on github.com, then:
@@ -126,6 +119,10 @@ git remote add origin https://github.com/<your-username>/smilish-group.git
 git branch -M main
 git push -u origin main
 ```
+
+(If you use the second option, `git branch -M main` renames the default
+`master` branch to `main` before pushing — either name works, just be
+consistent with what you select as the default branch on GitHub.)
 
 ### 2. Deploy to Vercel (recommended — built by the makers of Next.js)
 
