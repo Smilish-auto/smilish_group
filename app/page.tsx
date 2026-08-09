@@ -3,6 +3,7 @@ import { Shirt, Cpu, Building2, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Eyebrow, SectionHeading } from "@/components/SectionHeading";
 import { TriMark } from "@/components/Mark";
+import { GlossyBackdrop } from "@/components/GlossyBackdrop";
 import { BusinessCard } from "@/components/BusinessCard";
 import { ProductCard } from "@/components/ProductCard";
 import { ServiceCard } from "@/components/ServiceCard";
@@ -65,15 +66,7 @@ export default function HomePage() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-navy-deep">
-        <div
-          className="absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-          }}
-          aria-hidden="true"
-        />
+        <GlossyBackdrop />
         <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-28">
           <Eyebrow tone="light">Smilish Group — Fashion · AI Automation · Real Estate</Eyebrow>
           <h1 className="text-balance mt-6 max-w-4xl font-display text-4xl font-medium leading-[1.08] text-white sm:text-6xl md:text-7xl">

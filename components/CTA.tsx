@@ -1,5 +1,6 @@
 import { Button } from "./Button";
 import { TriMark } from "./Mark";
+import { GlossyBackdrop } from "./GlossyBackdrop";
 
 export function CTA({
   eyebrow = "Work With Smilish",
@@ -20,15 +21,7 @@ export function CTA({
 }) {
   return (
     <section className="relative overflow-hidden bg-navy-deep">
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-        aria-hidden="true"
-      />
+      <GlossyBackdrop />
       <div className="relative mx-auto max-w-4xl px-5 py-20 text-center sm:px-8 sm:py-28">
         <div className="flex justify-center">
           <TriMark />

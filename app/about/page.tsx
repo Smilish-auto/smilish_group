@@ -4,6 +4,7 @@ import { Eyebrow, SectionHeading } from "@/components/SectionHeading";
 import { BusinessCard } from "@/components/BusinessCard";
 import { TriMark } from "@/components/Mark";
 import { CTA } from "@/components/CTA";
+import { GlossyBackdrop } from "@/components/GlossyBackdrop";
 
 export const metadata: Metadata = {
   title: "About",
@@ -53,8 +54,9 @@ const businesses = [
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-navy-deep">
-        <div className="mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
+      <section className="relative overflow-hidden bg-navy-deep">
+        <GlossyBackdrop />
+        <div className="relative mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
           <Eyebrow tone="light">Our Story</Eyebrow>
           <h1 className="text-balance mt-6 font-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl md:text-6xl">
             One founder&apos;s belief that businesses should outlive the founder.

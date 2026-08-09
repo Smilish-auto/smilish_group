@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/Button";
 import { Eyebrow, SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
+import { GlossyBackdrop } from "@/components/GlossyBackdrop";
 import { AutomationAuditForm } from "@/components/form/AutomationAuditForm";
 import { CTA } from "@/components/CTA";
 import { featuredAutomationServices } from "@/lib/data/automation";
@@ -58,15 +59,7 @@ export default function AutomationHubPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-navy-deep">
-        <div
-          className="absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-          aria-hidden="true"
-        />
+        <GlossyBackdrop />
         <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <Eyebrow tone="light">Smilish AI Automation</Eyebrow>
           <h1 className="text-balance mt-6 max-w-3xl font-display text-4xl font-medium leading-[1.1] text-white sm:text-6xl">

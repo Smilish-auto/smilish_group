@@ -5,6 +5,7 @@ import { Button } from "@/components/Button";
 import { Eyebrow, SectionHeading } from "@/components/SectionHeading";
 import { PropertyCard } from "@/components/PropertyCard";
 import { CTA } from "@/components/CTA";
+import { GlossyBackdrop } from "@/components/GlossyBackdrop";
 import { featuredProperties, propertyTypes, propertyStates } from "@/lib/data/real-estate";
 
 export const metadata: Metadata = {
@@ -23,7 +24,8 @@ export default function RealEstateHubPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-navy-deep">
-        <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+        <GlossyBackdrop />
+        <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <Eyebrow tone="light">Smilish Real Estate</Eyebrow>
           <h1 className="text-balance mt-6 max-w-3xl font-display text-4xl font-medium leading-[1.1] text-white sm:text-6xl">
             Property, made <span className="italic text-gold-soft">clear</span>.

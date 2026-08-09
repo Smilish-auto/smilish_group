@@ -8,6 +8,7 @@ import { Monogram } from "./Mark";
 import { Button } from "./Button";
 
 const LINKS = [
+  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/fashion", label: "Fashion" },
   { href: "/automation", label: "AI Automation" },
