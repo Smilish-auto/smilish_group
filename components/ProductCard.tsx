@@ -2,16 +2,17 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { FashionProduct } from "@/lib/data/fashion";
 import { formatNaira } from "@/lib/format";
+import { PlaceholderArt } from "./PlaceholderArt";
 
 export function ProductCard({ product }: { product: FashionProduct }) {
   const outOfStock = product.status === "Out of Stock";
   return (
     <Link
       href={`/fashion/product/${product.slug}`}
-      className="group block overflow-hidden rounded-2xl border border-line bg-white transition-shadow hover:shadow-[0_20px_45px_-25px_rgba(11,31,58,0.35)]"
+      className="group block overflow-hidden rounded-2xl border border-line bg-white transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-[0_24px_50px_-25px_rgba(11,31,58,0.4)]"
     >
-      <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-mist">
-        <span className="font-display text-sm italic text-navy/25">{product.name}</span>
+      <div className="relative aspect-[4/5] overflow-hidden">
+        <PlaceholderArt variant="fashion" label={product.name} className="h-full w-full" />
         {outOfStock && (
           <span className="absolute left-3 top-3 rounded-full bg-ink/85 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-white">
             Out of Stock

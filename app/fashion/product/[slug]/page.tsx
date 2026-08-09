@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/Button";
+import { PlaceholderArt } from "@/components/PlaceholderArt";
 import { fashionProducts } from "@/lib/data/fashion";
 import { formatNaira } from "@/lib/format";
 import { CTA } from "@/components/CTA";
@@ -44,8 +45,8 @@ export default async function FashionProductPage({
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2">
-          <div className="flex aspect-square items-center justify-center rounded-2xl bg-mist">
-            <span className="font-display text-lg italic text-navy/25">{product.name}</span>
+          <div className="aspect-square overflow-hidden rounded-2xl">
+            <PlaceholderArt variant="fashion" label={product.name} className="h-full w-full" patternSize="18px 18px" />
           </div>
 
           <div>

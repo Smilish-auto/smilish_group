@@ -23,6 +23,8 @@ export const fashionCategories = [
   "Kaftans",
   "Streetwear",
   "Corporate Wear",
+  "Wedding and Event Wear",
+  "Fashion Consultation",
 ];
 
 export const fashionProducts: FashionProduct[] = [
@@ -130,6 +132,51 @@ export const fashionProducts: FashionProduct[] = [
     status: "Published",
     description:
       "A precision-cut Oxford shirt for corporate wardrobes and staff uniforms, available for bulk order with company branding on request.",
+  },
+  {
+    slug: "midnight-wedding-kaftan",
+    name: "Midnight Wedding Kaftan",
+    category: "Wedding and Event Wear",
+    fabric: "Embellished Silk",
+    price: 145000,
+    colors: ["Midnight Navy", "Gold Embroidery"],
+    sizes: ["M", "L", "XL", "Custom"],
+    stock: 4,
+    sku: "SF-WED-005",
+    featured: true,
+    status: "Published",
+    description:
+      "A statement kaftan for grooms and guests, hand-embellished with gold thread along the neckline and cuffs — built for the reception, not just the ceremony.",
+  },
+  {
+    slug: "signature-cap",
+    name: "Signature Cap",
+    category: "Streetwear",
+    fabric: "Cotton Twill",
+    price: 12000,
+    colors: ["Black", "Navy", "Stone"],
+    sizes: ["One Size"],
+    stock: 41,
+    sku: "SF-STR-115",
+    featured: false,
+    status: "Published",
+    description:
+      "A structured six-panel cap with a subtly embroidered SG monogram — the easiest way into the Smilish streetwear line.",
+  },
+  {
+    slug: "consultation-fitting",
+    name: "Personal Styling & Fitting Session",
+    category: "Fashion Consultation",
+    fabric: "N/A",
+    price: 15000,
+    colors: [],
+    sizes: [],
+    stock: 999,
+    sku: "SF-CON-001",
+    featured: false,
+    status: "Published",
+    description:
+      "A one-on-one session with a Smilish stylist to plan an outfit, take measurements, or refine a wardrobe for an upcoming event — fee is credited toward any order placed the same day.",
   },
 ];
 

@@ -4,10 +4,10 @@ import { type ReactNode } from "react";
 type Variant = "gold" | "navy" | "ghost-light" | "ghost-dark";
 
 const styles: Record<Variant, string> = {
-  gold: "bg-gold text-navy-deep hover:bg-gold-soft",
-  navy: "bg-navy text-white hover:bg-navy-deep",
-  "ghost-light": "border border-white/40 text-white hover:border-white hover:bg-white/10",
-  "ghost-dark": "border border-navy/30 text-navy hover:border-navy hover:bg-navy/5",
+  gold: "bg-gold text-navy-deep hover:bg-gold-soft active:scale-[0.97]",
+  navy: "bg-navy text-white hover:bg-navy-deep active:scale-[0.97]",
+  "ghost-light": "border border-white/40 text-white hover:border-white hover:bg-white/10 active:scale-[0.97]",
+  "ghost-dark": "border border-navy/30 text-navy hover:border-navy hover:bg-navy/5 active:scale-[0.97]",
 };
 
 export function Button({
@@ -26,7 +26,7 @@ export function Button({
   type?: "button" | "submit";
 }) {
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-body text-sm font-medium tracking-wide transition-colors duration-200";
+    "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-body text-sm font-medium tracking-wide transition-all duration-200";
   const cls = `${base} ${styles[variant]} ${className}`;
 
   if (href) {

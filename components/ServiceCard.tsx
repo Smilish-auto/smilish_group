@@ -6,7 +6,7 @@ export function ServiceCard({ service }: { service: AutomationService }) {
   return (
     <Link
       href={`/automation/service/${service.slug}`}
-      className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-navy p-6 transition-colors hover:border-gold/40"
+      className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-navy p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-[0_24px_50px_-25px_rgba(0,0,0,0.6)]"
     >
       <div>
         <div className="flex items-start justify-between gap-3">

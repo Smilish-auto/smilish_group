@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, MapPin, BedDouble, Bath, Ruler, FileCheck, Phone } from "lucide-react";
 import { Button } from "@/components/Button";
+import { PlaceholderArt } from "@/components/PlaceholderArt";
 import { properties } from "@/lib/data/real-estate";
 import { formatNaira } from "@/lib/format";
 import { CTA } from "@/components/CTA";
@@ -50,19 +51,19 @@ export default async function PropertyDetailPage({
         </Link>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="relative flex aspect-[4/3] items-center justify-center rounded-2xl bg-navy-deep sm:col-span-2 sm:row-span-2 lg:aspect-auto">
-            <span className="font-display text-lg italic text-white/25">{property.title}</span>
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:col-span-2 sm:row-span-2 lg:aspect-auto">
+            <PlaceholderArt variant="real-estate" label={property.title} className="h-full w-full" patternSize="26px 26px" />
             <span
               className={`absolute left-4 top-4 rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-wider ${statusStyles[property.status]}`}
             >
               {property.status}
             </span>
           </div>
-          <div className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-mist sm:aspect-auto">
-            <span className="font-display text-sm italic text-navy/20">Gallery Image 2</span>
+          <div className="aspect-[4/3] overflow-hidden rounded-2xl sm:aspect-auto">
+            <PlaceholderArt variant="real-estate" label="Gallery Image 2" className="h-full w-full" patternSize="26px 26px" />
           </div>
-          <div className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-mist sm:aspect-auto">
-            <span className="font-display text-sm italic text-navy/20">Gallery Image 3</span>
+          <div className="aspect-[4/3] overflow-hidden rounded-2xl sm:aspect-auto">
+            <PlaceholderArt variant="real-estate" label="Gallery Image 3" className="h-full w-full" patternSize="26px 26px" />
           </div>
         </div>
 

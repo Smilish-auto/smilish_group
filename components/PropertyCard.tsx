@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BedDouble, Bath, Ruler, MapPin } from "lucide-react";
 import type { Property } from "@/lib/data/real-estate";
 import { formatNaira } from "@/lib/format";
+import { PlaceholderArt } from "./PlaceholderArt";
 
 const statusStyles: Record<Property["status"], string> = {
   Available: "bg-gold text-navy-deep",
@@ -15,10 +16,10 @@ export function PropertyCard({ property }: { property: Property }) {
   return (
     <Link
       href={`/real-estate/property/${property.slug}`}
-      className="group block overflow-hidden rounded-2xl border border-line bg-white transition-shadow hover:shadow-[0_20px_45px_-25px_rgba(11,31,58,0.35)]"
+      className="group block overflow-hidden rounded-2xl border border-line bg-white transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-[0_24px_50px_-25px_rgba(11,31,58,0.4)]"
     >
-      <div className="relative flex aspect-[4/3] items-center justify-center bg-navy-deep">
-        <span className="font-display text-sm italic text-white/25">{property.title}</span>
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <PlaceholderArt variant="real-estate" label={property.title} className="h-full w-full" />
         <span
           className={`absolute left-3 top-3 rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-wider ${statusStyles[property.status]}`}
         >

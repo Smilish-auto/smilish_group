@@ -12,7 +12,7 @@ export function ProjectCard({ project }: { project: UnifiedProject }) {
   return (
     <Link
       href={project.href}
-      className="group flex flex-col justify-between rounded-2xl border border-line bg-white p-6 transition-shadow hover:shadow-[0_20px_45px_-25px_rgba(11,31,58,0.35)]"
+      className="group flex flex-col justify-between rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_50px_-25px_rgba(11,31,58,0.4)]"
     >
       <div>
         <div className="flex items-center justify-between gap-3">

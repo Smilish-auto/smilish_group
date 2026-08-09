@@ -10,6 +10,7 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ProjectCard } from "@/components/ProjectCard";
 import { CTA } from "@/components/CTA";
+import { Reveal } from "@/components/Reveal";
 import { featuredFashionProducts } from "@/lib/data/fashion";
 import { featuredAutomationServices } from "@/lib/data/automation";
 import { featuredProperties } from "@/lib/data/real-estate";
@@ -97,7 +98,9 @@ export default function HomePage() {
         />
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {businesses.map((b, i) => (
-            <BusinessCard key={b.name} {...b} index={`0${i + 1}`} />
+            <Reveal key={b.name} delay={i * 90}>
+              <BusinessCard {...b} index={`0${i + 1}`} />
+            </Reveal>
           ))}
         </div>
       </section>
@@ -118,8 +121,10 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredFashionProducts.slice(0, 3).map((p) => (
-              <ProductCard key={p.slug} product={p} />
+            {featuredFashionProducts.slice(0, 3).map((p, i) => (
+              <Reveal key={p.slug} delay={i * 90}>
+                <ProductCard product={p} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -142,8 +147,10 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredAutomationServices.slice(0, 3).map((s) => (
-              <ServiceCard key={s.slug} service={s} />
+            {featuredAutomationServices.slice(0, 3).map((s, i) => (
+              <Reveal key={s.slug} delay={i * 90}>
+                <ServiceCard service={s} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -162,8 +169,10 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProperties.slice(0, 3).map((p) => (
-              <PropertyCard key={p.slug} property={p} />
+            {featuredProperties.slice(0, 3).map((p, i) => (
+              <Reveal key={p.slug} delay={i * 90}>
+                <PropertyCard property={p} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -185,8 +194,10 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.slice(0, 3).map((p) => (
-              <ProjectCard key={`${p.branch}-${p.slug}`} project={p} />
+            {featuredProjects.slice(0, 3).map((p, i) => (
+              <Reveal key={`${p.branch}-${p.slug}`} delay={i * 90}>
+                <ProjectCard project={p} />
+              </Reveal>
             ))}
           </div>
         </div>

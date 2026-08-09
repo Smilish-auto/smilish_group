@@ -21,6 +21,13 @@ const values = [
   { term: "Long-Term Thinking", detail: "Build assets and businesses that become more valuable over time." },
 ];
 
+const milestones = [
+  { year: "Year 1", title: "Smilish Fashion founded", detail: "Started as a made-to-order tailoring house, one custom piece at a time." },
+  { year: "Year 2", title: "Smilish AI Automation launched", detail: "Built the first AI customer service agent for a food ordering business." },
+  { year: "Year 3", title: "Smilish Real Estate opened", detail: "Began marketing and managing property listings across Lagos and Abuja." },
+  { year: "Today", title: "One group, three businesses", detail: "Operating under a single standard of quality, trust and long-term value." },
+];
+
 const businesses = [
   {
     icon: Shirt,
@@ -67,6 +74,25 @@ export default function AboutPage() {
             a real estate practice — under one standard. Each business is built to solve a real
             problem for real customers, and to keep creating value long after the first sale.
           </p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/55">
+            What ties Smilish Fashion, Smilish AI Automation and Smilish Real Estate together isn&apos;t
+            the products — it&apos;s the standard. The same discipline that goes into cutting a clean
+            agbada goes into shipping a reliable AI agent and into vetting a property&apos;s
+            documentation before it ever reaches a listing page.
+          </p>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+        <Eyebrow>How We Got Here</Eyebrow>
+        <div className="mt-10 grid gap-8 border-t border-line pt-10 sm:grid-cols-2 lg:grid-cols-4">
+          {milestones.map((m) => (
+            <div key={m.title}>
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-gold">{m.year}</p>
+              <p className="mt-3 font-display text-lg font-medium text-navy-deep">{m.title}</p>
+              <p className="mt-2 text-sm leading-relaxed text-navy/60">{m.detail}</p>
+            </div>
+          ))}
         </div>
       </section>
 

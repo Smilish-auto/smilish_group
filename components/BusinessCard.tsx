@@ -30,7 +30,7 @@ export function BusinessCard({
   return (
     <Link
       href={href}
-      className={`group flex h-full flex-col justify-between rounded-2xl border border-line bg-white p-7 transition-colors ${styles.ring}`}
+      className={`group flex h-full flex-col justify-between rounded-2xl border border-line bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_50px_-25px_rgba(11,31,58,0.4)] ${styles.ring}`}
     >
       <div>
         <div className="flex items-center justify-between">
