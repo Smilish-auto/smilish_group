@@ -14,32 +14,45 @@ wire it to a real CMS/database.
 
 ```
 app/
-  layout.tsx              Root layout — Navbar, Footer, site-wide metadata
-  page.tsx                Homepage
-  about/                  About page (story, mission, vision, values, leadership)
-  contact/                Contact page + form
-  fashion/
-    page.tsx              Fashion hub (hero, categories, featured, custom design, work)
-    products/              Product listing with category filter
-    product/[slug]/         Product detail page
-    projects/               Fashion project gallery
-  automation/
-    page.tsx              AI Automation hub (what we automate, how it works, case studies)
-    services/               Service listing
-    service/[slug]/         Service detail page
-    projects/               Case studies
-  real-estate/
-    page.tsx              Real Estate hub (search, featured listings, services)
-    properties/            Property listing with filters (location/type/price/state)
-    property/[slug]/        Property detail page
-    inspection/             Book Inspection form
-  projects/                Unified project gallery (filter by branch)
-  project/[slug]/           Unified project detail page
-  not-found.tsx            Custom 404
+  (site)/                  Route group for the public site — its own root layout
+    layout.tsx               Navbar, Footer, site-wide metadata
+    page.tsx                 Homepage
+    about/                    About page (story, milestones, mission, vision, values)
+    contact/                  Contact page + form
+    fashion/
+      page.tsx                Fashion hub (hero, categories, featured, custom design, work)
+      products/                Product listing with category filter
+      product/[slug]/           Product detail page
+      projects/                 Fashion project gallery
+    automation/
+      page.tsx                AI Automation hub
+      services/                 Service listing
+      service/[slug]/           Service detail page
+      projects/                 Case studies
+    real-estate/
+      page.tsx                Real Estate hub (search, featured listings, services)
+      properties/               Property listing with filters
+      property/[slug]/          Property detail page
+      inspection/                Book Inspection form
+    projects/                 Unified project gallery (filter by branch)
+    project/[slug]/            Unified project detail page
+    not-found.tsx              Custom 404
+  admin/                    Route group for the admin panel — its own root layout, no public chrome
+    layout.tsx                Minimal root layout (html/body only)
+    login/                     Admin sign-in (Supabase Auth)
+    (dashboard)/               Everything behind the sidebar — only rendered once signed in
+      layout.tsx                Sidebar shell
+      page.tsx                  Dashboard overview (live counts)
+      fashion-products/          List, create, edit/delete — the pattern for every other module
+  globals.css               Design tokens, fonts
+middleware.ts             Protects /admin/* — redirects signed-out or non-admin visitors
 
-components/               Reusable UI: Navbar, Footer, Button, Cards, Forms, CTA, etc.
-lib/data/                 Typed mock content: fashion.ts, automation.ts, real-estate.ts, projects.ts
+components/               Reusable public UI: Navbar, Footer, Button, Cards, Forms, CTA, etc.
+components/admin/         Admin-only UI: sidebar, image upload, product form
+lib/data/                 Typed mock content powering the public pages for now
+lib/supabase/             Supabase client setup (browser + server) and generated types
 lib/format.ts             Currency formatting helper
+supabase/schema.sql       Full database schema, RLS policies, and storage bucket setup
 ```
 
 ## Brand system
@@ -71,32 +84,75 @@ npm run lint     # ESLint
 
 ## What's built vs. what's next
 
-This covers **Phase 1** from the spec (the public brand website) for all
-three business branches, plus the unified Projects gallery. It intentionally
-does **not** include Phase 2+ (admin/CMS, database, auth, file uploads, lead
-storage) — that requires real infrastructure decisions (a Postgres/Supabase
-project, auth provider, storage bucket) that only you can set up with your
-own credentials.
+This covers **Phase 1** (the public brand website, all three branches) plus
+the **foundation of Phase 2/3** — a real, working admin panel backed by
+Supabase:
 
-**Currently:**
-- All content (products, services, properties, projects) lives in typed
-  mock data in `lib/data/` — easy to read, easy to swap out.
-- The Contact, Custom Design, Automation Audit and Inspection forms are
-  fully built and validated client-side, but currently just show a
-  confirmation message (`components/form/SubmittableForm.tsx`) — they don't
-  send anywhere yet.
+**Working right now:**
+- Full Supabase schema (`supabase/schema.sql`) for every content type in the
+  spec — fashion products & projects, automation services & projects,
+  properties, inspections, leads, contact messages, media, site content —
+  with Row Level Security so public visitors can only read published content
+  and only signed-in admins can write.
+- Admin authentication at `/admin/login`, fully separate from the public
+  site (own layout, no public nav/footer), protected by `middleware.ts` —
+  unauthenticated visitors and non-admin accounts are redirected out.
+- A live dashboard (`/admin`) showing real counts pulled from the database.
+- One complete, working content module — **Fashion Products** — with a list
+  view, create form, edit form, image upload straight to Supabase Storage,
+  and delete. This is the pattern every other content type follows.
 
-**To move into Phase 2/3 (CMS + lead capture), the recommended path is:**
-1. Create a [Supabase](https://supabase.com) project (Postgres + Auth + Storage).
-2. Model the tables from spec sections 17–23 (fashion products, properties,
-   projects, leads, inspections, messages).
-3. Replace the static reads in `lib/data/*.ts` with Supabase queries.
-4. Turn `SubmittableForm`'s simulated submit into a real `fetch()` to a
-   Next.js API route (`app/api/.../route.ts`) that writes to the database
-   and (optionally) notifies you via email/WhatsApp/n8n.
-5. Build `/admin` as a separate, authenticated route group (`app/admin/`)
-   using Supabase Auth — keep it entirely out of the public `LINKS` array in
-   `components/Navbar.tsx` per the spec's admin/public separation rule.
+**Not yet wired up (same pattern as Fashion Products, just not built yet):**
+Fashion Projects, Automation Services & Projects, Real Estate Properties,
+Inspections, Leads, Contact Messages, Media Library browser, and the
+Settings/site-content editor. The public pages (`/fashion/products`, etc.)
+also still read from the mock data in `lib/data/` rather than the database —
+once you're ready, say the word and I'll wire the remaining modules and
+switch the public pages over to live data.
+
+## Setting up the admin panel
+
+### 1. Run the database schema
+
+In your Supabase project, go to **SQL Editor → New query**, paste the
+entire contents of `supabase/schema.sql`, and click **Run**. This creates
+every table, sets up security rules, and creates the `media` storage bucket
+for image uploads. Safe to re-run if needed.
+
+### 2. Add your Supabase keys locally
+
+Copy `.env.local.example` to `.env.local` and fill in the two values from
+your Supabase project (**Project Settings → API**):
+
+```bash
+cp .env.local.example .env.local
+```
+
+`.env.local` is already in `.gitignore` — it never gets committed or pushed.
+
+### 3. Create your first admin login
+
+There's no public sign-up form for `/admin` on purpose. To create yourself
+an account:
+
+1. In Supabase: **Authentication → Users → Add user** — enter your email
+   and a password, and confirm the email automatically.
+2. Copy that user's ID (shown in the users table).
+3. In **SQL Editor**, run:
+   ```sql
+   insert into admin_users (id, full_name) values ('paste-the-user-id-here', 'Your Name');
+   ```
+4. Run `npm run dev`, go to `http://localhost:3000/admin/login`, and sign in.
+
+Repeat steps 1–3 for anyone else on your team who needs admin access.
+
+### 4. Add the same keys to Vercel
+
+Once this is pushed, your live site needs the same two environment
+variables: in your Vercel project, go to **Settings → Environment
+Variables**, add `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_ANON_KEY` with the same values as your `.env.local`,
+then redeploy (**Deployments → ⋯ → Redeploy**) so the live site picks them up.
 
 ## Deploying
 
