@@ -328,5 +328,5 @@ create policy "admin manage media bucket" on storage.objects
 insert into site_content (key, value) values
   ('homepage_hero', '{"eyebrow": "Smilish Group — Fashion · AI Automation · Real Estate", "title": "Building Businesses. Creating Value.", "subtitle": "One group, three businesses — Fashion, AI Automation and Real Estate — built on quality, trust and long-term thinking."}'),
   ('about_story', '{"title": "One founder''s belief that businesses should outlive the founder.", "body": "Smilish Group began as a single idea..."}'),
-  ('contact_info', '{"phone": "+234 000 000 0000", "email": "hello@smilishgroup.com", "instagram": "smilishgroup", "location": "Lagos, Nigeria"}')
+  ('contact_info', '{"phone": "+234 702 556 7907", "whatsapp": "+234 915 010 7552", "email": "smilishgroup@gmail.com", "instagram": "smilishgroup", "location": "Lagos, Nigeria"}')
 on conflict (key) do nothing;

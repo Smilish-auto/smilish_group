@@ -60,16 +60,38 @@ export function Footer() {
             </p>
             <ul className="mt-4 space-y-3 text-sm text-white/70">
               <li className="flex items-center gap-2">
-                <Phone size={15} className="text-gold-soft" /> +234 000 000 0000
+                <Phone size={15} className="text-gold-soft" />
+                <a href="tel:+2347025567907" className="hover:text-gold-soft">
+                  +234 702 556 7907
+                </a>
               </li>
               <li className="flex items-center gap-2">
-                <Mail size={15} className="text-gold-soft" /> hello@smilishgroup.com
+                <Mail size={15} className="text-gold-soft" />
+                <a href="mailto:smilishgroup@gmail.com" className="hover:text-gold-soft">
+                  smilishgroup@gmail.com
+                </a>
               </li>
               <li className="flex items-center gap-2">
-                <MessageCircle size={15} className="text-gold-soft" /> WhatsApp Us
+                <MessageCircle size={15} className="text-gold-soft" />
+                <a
+                  href="https://wa.me/2349150107552"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-gold-soft"
+                >
+                  WhatsApp Us
+                </a>
               </li>
               <li className="flex items-center gap-2">
-                <AtSign size={15} className="text-gold-soft" /> smilishgroup
+                <AtSign size={15} className="text-gold-soft" />
+                <a
+                  href="https://instagram.com/smilishgroup"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-gold-soft"
+                >
+                  smilishgroup
+                </a>
               </li>
             </ul>
           </div>

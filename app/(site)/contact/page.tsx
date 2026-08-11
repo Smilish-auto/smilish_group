@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 };
 
 const details = [
-  { icon: Phone, label: "Phone", value: "+234 000 000 0000" },
-  { icon: Mail, label: "Email", value: "hello@smilishgroup.com" },
-  { icon: MessageCircle, label: "WhatsApp", value: "Chat with us" },
-  { icon: AtSign, label: "Instagram", value: "smilishgroup" },
+  { icon: Phone, label: "Phone", value: "+234 702 556 7907", href: "tel:+2347025567907" },
+  { icon: Mail, label: "Email", value: "smilishgroup@gmail.com", href: "mailto:smilishgroup@gmail.com" },
+  { icon: MessageCircle, label: "WhatsApp", value: "+234 915 010 7552", href: "https://wa.me/2349150107552" },
+  { icon: AtSign, label: "Instagram", value: "smilishgroup", href: "https://instagram.com/smilishgroup" },
   { icon: MapPin, label: "Location", value: "Lagos, Nigeria" },
 ];
 
@@ -40,7 +40,18 @@ export default function ContactPage() {
                   <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-navy/45">
                     {d.label}
                   </p>
-                  <p className="text-sm font-medium text-navy-deep">{d.value}</p>
+                  {d.href ? (
+                    <a
+                      href={d.href}
+                      target={d.href.startsWith("http") ? "_blank" : undefined}
+                      rel={d.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="text-sm font-medium text-navy-deep hover:text-gold"
+                    >
+                      {d.value}
+                    </a>
+                  ) : (
+                    <p className="text-sm font-medium text-navy-deep">{d.value}</p>
+                  )}
                 </div>
               </li>
             ))}
