@@ -61,15 +61,23 @@ export default function AutomationHubPage() {
       <section className="relative overflow-hidden bg-navy-deep">
         <GlossyBackdrop />
         <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-          <Eyebrow tone="light">Smilish AI Automation</Eyebrow>
-          <h1 className="text-balance mt-6 max-w-3xl font-display text-4xl font-medium leading-[1.1] text-white sm:text-6xl">
+          <div className="animate-fade-up">
+            <Eyebrow tone="light">Smilish AI Automation</Eyebrow>
+          </div>
+          <h1
+            className="text-balance animate-fade-up mt-6 max-w-3xl font-display text-4xl font-medium leading-[1.1] text-white sm:text-6xl"
+            style={{ animationDelay: "100ms" }}
+          >
             Give your business back its <span className="italic text-gold-soft">time</span>.
           </h1>
-          <p className="mt-7 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
+          <p
+            className="animate-fade-up mt-7 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg"
+            style={{ animationDelay: "220ms" }}
+          >
             We design and build AI customer service, lead qualification and workflow automation
             systems that handle the repetitive work — so your team can focus on what needs a human.
           </p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div className="animate-fade-up mt-10 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: "340ms" }}>
             <Button href="#audit" variant="gold">
               Request a Free Audit
             </Button>

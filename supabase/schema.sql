@@ -147,6 +147,7 @@ create table if not exists property_inspections (
   phone text,
   email text,
   property_id uuid references properties(id) on delete set null,
+  property_title text,
   inspection_date date,
   inspection_time time,
   status text not null default 'Pending' check (status in ('Pending', 'Confirmed', 'Completed', 'Cancelled', 'Rescheduled')),
@@ -154,8 +155,8 @@ create table if not exists property_inspections (
   created_at timestamptz not null default now()
 );
 
--- ---------------------------------------------------------------------------
--- Leads (from Contact / Custom Design / Automation Audit forms)
+-- Safe to re-run: adds the column if this table was created before it existed.
+alter table property_inspections add column if not exists property_title text;
 -- ---------------------------------------------------------------------------
 create table if not exists leads (
   id uuid primary key default uuid_generate_v4(),

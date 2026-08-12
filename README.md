@@ -98,17 +98,28 @@ Supabase:
   site (own layout, no public nav/footer), protected by `middleware.ts` —
   unauthenticated visitors and non-admin accounts are redirected out.
 - A live dashboard (`/admin`) showing real counts pulled from the database.
-- One complete, working content module — **Fashion Products** — with a list
-  view, create form, edit form, image upload straight to Supabase Storage,
-  and delete. This is the pattern every other content type follows.
+- **Every content module has full create/edit/delete** — Fashion Products,
+  Fashion Projects, Automation Services, Automation Projects (case studies),
+  and Real Estate Properties — each with image upload straight to Supabase
+  Storage.
+- **Leads**, **Inspections**, and **Messages** — list views with inline
+  status updates (and read/unread for messages) for everything submitted
+  through the public site's forms.
+- **Media Library** (`/admin/media`) — browse every uploaded image across
+  the site, upload new ones directly, copy a public URL, or delete.
+- **Settings** (`/admin/settings`) — switch the homepage hero between the
+  default gradient and an uploaded photo.
 
-**Not yet wired up (same pattern as Fashion Products, just not built yet):**
-Fashion Projects, Automation Services & Projects, Real Estate Properties,
-Inspections, Leads, Contact Messages, Media Library browser, and the
-Settings/site-content editor. The public pages (`/fashion/products`, etc.)
-also still read from the mock data in `lib/data/` rather than the database —
-once you're ready, say the word and I'll wire the remaining modules and
-switch the public pages over to live data.
+**Not yet wired up:**
+The public pages (`/fashion/products`, `/automation/services`,
+`/real-estate/properties`, etc.) still read from the mock data in
+`lib/data/` rather than the database — so anything you add in the admin
+panel won't appear on the live public pages yet. That's the next piece:
+swapping those pages over to read from Supabase the same way the homepage
+hero now does. Say the word and I'll wire it up.
+
+The public forms (Contact, Custom Design, Automation Audit, Inspection)
+also don't save anywhere yet or send you an email — that's next too.
 
 ## Setting up the admin panel
 

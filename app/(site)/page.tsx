@@ -3,7 +3,6 @@ import { Shirt, Cpu, Building2, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Eyebrow, SectionHeading } from "@/components/SectionHeading";
 import { TriMark } from "@/components/Mark";
-import { GlossyBackdrop } from "@/components/GlossyBackdrop";
 import { BusinessCard } from "@/components/BusinessCard";
 import { ProductCard } from "@/components/ProductCard";
 import { ServiceCard } from "@/components/ServiceCard";
@@ -11,6 +10,8 @@ import { PropertyCard } from "@/components/PropertyCard";
 import { ProjectCard } from "@/components/ProjectCard";
 import { CTA } from "@/components/CTA";
 import { Reveal } from "@/components/Reveal";
+import { HeroBackground } from "@/components/HeroBackground";
+import { getHeroBackground } from "@/lib/supabase/site-content";
 import { featuredFashionProducts } from "@/lib/data/fashion";
 import { featuredAutomationServices } from "@/lib/data/automation";
 import { featuredProperties } from "@/lib/data/real-estate";
@@ -62,23 +63,36 @@ const process = [
   { step: "04", title: "Grow", detail: "We stay close after launch, refining what we've built as your needs grow." },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const heroBackground = await getHeroBackground();
+
   return (
     <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-navy-deep">
-        <GlossyBackdrop />
+        <HeroBackground setting={heroBackground} />
         <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-28">
-          <Eyebrow tone="light">Smilish Group — Fashion · AI Automation · Real Estate</Eyebrow>
-          <h1 className="text-balance mt-6 max-w-4xl font-display text-4xl font-medium leading-[1.08] text-white sm:text-6xl md:text-7xl">
+          <div className="animate-fade-up">
+            <Eyebrow tone="light">Smilish Group — Fashion · AI Automation · Real Estate</Eyebrow>
+          </div>
+          <h1
+            className="text-balance animate-fade-up mt-6 max-w-4xl font-display text-4xl font-medium leading-[1.08] text-white sm:text-6xl md:text-7xl"
+            style={{ animationDelay: "100ms" }}
+          >
             Building Businesses.{" "}
             <span className="italic text-gold-soft">Creating Value.</span>
           </h1>
-          <p className="mt-7 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
+          <p
+            className="animate-fade-up mt-7 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg"
+            style={{ animationDelay: "220ms" }}
+          >
             One group, three businesses — Fashion, AI Automation and Real Estate — built on
             quality, trust and long-term thinking.
           </p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div
+            className="animate-fade-up mt-10 flex flex-col gap-3 sm:flex-row"
+            style={{ animationDelay: "340ms" }}
+          >
             <Button href="/contact" variant="gold">
               Work With Smilish
             </Button>
@@ -210,14 +224,16 @@ export default function HomePage() {
           title="What every business under the group is held to"
         />
         <div className="mt-12 grid gap-x-10 gap-y-8 border-t border-line pt-10 sm:grid-cols-2">
-          {values.map((v) => (
-            <div key={v.term} className="flex gap-5 border-b border-line pb-8">
-              <TriMark className="mt-1.5 shrink-0" />
-              <div>
-                <p className="font-display text-lg font-medium text-navy-deep">{v.term}</p>
-                <p className="mt-1 text-sm leading-relaxed text-navy/60">{v.detail}</p>
+          {values.map((v, i) => (
+            <Reveal key={v.term} delay={(i % 2) * 90}>
+              <div className="flex gap-5 border-b border-line pb-8">
+                <TriMark className="mt-1.5 shrink-0" />
+                <div>
+                  <p className="font-display text-lg font-medium text-navy-deep">{v.term}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-navy/60">{v.detail}</p>
+                </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -231,12 +247,12 @@ export default function HomePage() {
             tone="light"
           />
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {process.map((p) => (
-              <div key={p.step}>
+            {process.map((p, i) => (
+              <Reveal key={p.step} delay={i * 90}>
                 <p className="font-mono text-sm text-gold-soft">{p.step}</p>
                 <p className="mt-3 font-display text-xl font-medium text-white">{p.title}</p>
                 <p className="mt-2 text-sm leading-relaxed text-white/60">{p.detail}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

@@ -64,11 +64,19 @@ export default function AboutPage() {
       <section className="relative overflow-hidden bg-navy-deep">
         <GlossyBackdrop />
         <div className="relative mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
-          <Eyebrow tone="light">Our Story</Eyebrow>
-          <h1 className="text-balance mt-6 font-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl md:text-6xl">
+          <div className="animate-fade-up">
+            <Eyebrow tone="light">Our Story</Eyebrow>
+          </div>
+          <h1
+            className="text-balance animate-fade-up mt-6 font-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl md:text-6xl"
+            style={{ animationDelay: "100ms" }}
+          >
             One founder&apos;s belief that businesses should outlive the founder.
           </h1>
-          <p className="mt-7 max-w-2xl text-base leading-relaxed text-white/65 sm:text-lg">
+          <p
+            className="animate-fade-up mt-7 max-w-2xl text-base leading-relaxed text-white/65 sm:text-lg"
+            style={{ animationDelay: "220ms" }}
+          >
             Smilish Group began as a single idea: that quality, trust and long-term thinking could
             hold together very different businesses — a tailoring house, an AI automation studio and
             a real estate practice — under one standard. Each business is built to solve a real
