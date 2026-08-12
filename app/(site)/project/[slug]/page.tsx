@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { projects, getProjectBySlug } from "@/lib/data/projects";
+import { getUnifiedProjectBySlug } from "@/lib/supabase/queries";
 import { CTA } from "@/components/CTA";
-
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
-}
 
 export async function generateMetadata({
   params,
@@ -15,7 +11,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getUnifiedProjectBySlug(slug);
   if (!project) return {};
   return { title: project.title, description: project.summary };
 }
@@ -32,7 +28,7 @@ export default async function ProjectDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getUnifiedProjectBySlug(slug);
   if (!project) notFound();
 
   const branchHref =

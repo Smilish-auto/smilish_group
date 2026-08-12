@@ -94,6 +94,14 @@ Supabase:
   properties, inspections, leads, contact messages, media, site content —
   with Row Level Security so public visitors can only read published content
   and only signed-in admins can write.
+- **Every public page reads live from Supabase** — products, services,
+  properties, projects, and the homepage's featured sections all reflect
+  whatever's actually in your database in real time. No rebuild or
+  redeploy needed after adding content through `/admin`.
+- **Every public form actually works** — Contact, Custom Design, Automation
+  Audit, and Inspection all save to Supabase (`leads` / `property_inspections`)
+  and email `smilishgroup@gmail.com` when submitted (see "Email
+  notifications" below to turn the email part on).
 - Admin authentication at `/admin/login`, fully separate from the public
   site (own layout, no public nav/footer), protected by `middleware.ts` —
   unauthenticated visitors and non-admin accounts are redirected out.
@@ -109,17 +117,36 @@ Supabase:
   the site, upload new ones directly, copy a public URL, or delete.
 - **Settings** (`/admin/settings`) — switch the homepage hero between the
   default gradient and an uploaded photo.
+- A founder profile (photo + bio) on the About page.
 
 **Not yet wired up:**
-The public pages (`/fashion/products`, `/automation/services`,
-`/real-estate/properties`, etc.) still read from the mock data in
-`lib/data/` rather than the database — so anything you add in the admin
-panel won't appear on the live public pages yet. That's the next piece:
-swapping those pages over to read from Supabase the same way the homepage
-hero now does. Say the word and I'll wire it up.
+File uploads on the public Custom Design form (the reference image field)
+aren't connected to storage yet — everything else on every public form
+saves and emails correctly.
 
-The public forms (Contact, Custom Design, Automation Audit, Inspection)
-also don't save anywhere yet or send you an email — that's next too.
+## Email notifications
+
+Every form on the site (Contact, Custom Design, Automation Audit, Inspection)
+saves to Supabase **and** emails `smilishgroup@gmail.com` when someone
+submits it, using Gmail's own SMTP relay — no third-party email service
+needed.
+
+To turn this on:
+
+1. On the `smilishgroup@gmail.com` Google Account, go to **Security** and
+   turn on **2-Step Verification** (required to generate an App Password).
+2. Still in Security, search for **"App passwords"**, create one (name it
+   "Smilish Website"), and copy the 16-character password it gives you.
+3. Add both to `.env.local`:
+   ```
+   GMAIL_USER=smilishgroup@gmail.com
+   GMAIL_APP_PASSWORD=the-16-character-password
+   ```
+4. Add the same two variables in Vercel → Settings → Environment Variables,
+   then redeploy.
+
+If these aren't set, forms still save to Supabase (nothing is lost) — you
+just won't get an email until they're configured.
 
 ## Setting up the admin panel
 
@@ -129,6 +156,16 @@ In your Supabase project, go to **SQL Editor → New query**, paste the
 entire contents of `supabase/schema.sql`, and click **Run**. This creates
 every table, sets up security rules, and creates the `media` storage bucket
 for image uploads. Safe to re-run if needed.
+
+### 1b. (Optional) Seed it with demo content
+
+The site used to run on placeholder products/properties/services baked into
+the code — `supabase/seed.sql` has that same content as real database rows,
+so your live site looks populated immediately instead of empty. In SQL
+Editor → New query, paste `supabase/seed.sql` and run it. Skip this
+entirely if you'd rather start empty and add everything yourself through
+`/admin`. Either way, everything it adds is fully editable/deletable from
+the admin panel afterward.
 
 ### 2. Add your Supabase keys locally
 

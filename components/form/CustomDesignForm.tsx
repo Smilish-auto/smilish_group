@@ -8,6 +8,8 @@ export function CustomDesignForm() {
       submitLabel="Submit Custom Request"
       successTitle="Custom request submitted"
       successBody="Our tailoring team will review your details and reach out to confirm measurements and pricing."
+      endpoint="/api/leads"
+      extraFields={{ formType: "Custom Design Request", branch: "Fashion" }}
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <TextField label="Full Name" name="name" required placeholder="Your name" />

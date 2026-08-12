@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import type { FashionProduct } from "@/lib/data/fashion";
+import type { FashionProductRow } from "@/lib/supabase/types";
 import { formatNaira } from "@/lib/format";
 import { PlaceholderArt } from "./PlaceholderArt";
 
-export function ProductCard({ product }: { product: FashionProduct }) {
+export function ProductCard({ product }: { product: FashionProductRow }) {
   const outOfStock = product.status === "Out of Stock";
   return (
     <Link

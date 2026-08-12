@@ -4,32 +4,55 @@ import { CheckCircle2 } from "lucide-react";
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Button } from "../Button";
 
-/**
- * Client-side form shell shared by the Contact, Custom Design, Automation
- * Audit and Inspection Request forms.
- *
- * NOTE: This currently simulates a submission and shows a confirmation
- * state. Wiring it to a real endpoint is a Phase 3 (Lead & Request
- * Management) task — see the project README for the suggested approach
- * (an API route that writes to Postgres/Supabase and notifies the team).
- */
 export function SubmittableForm({
   children,
   submitLabel,
   successTitle,
   successBody,
+  endpoint,
+  extraFields,
 }: {
   children: ReactNode;
   submitLabel: string;
   successTitle: string;
   successBody: string;
+  /** API route this form posts to, e.g. "/api/leads" or "/api/inspections". */
+  endpoint: string;
+  /** Extra values to send alongside the form's own fields (e.g. formType, branch). */
+  extraFields?: Record<string, string>;
 }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
-    window.setTimeout(() => setStatus("done"), 700);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const payload: Record<string, string> = { ...extraFields };
+    formData.forEach((value, key) => {
+      if (typeof value === "string") payload[key] = value;
+      // File inputs aren't uploaded yet — silently skipped for now.
+    });
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || "Something went wrong — please try again.");
+      }
+
+      setStatus("done");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong — please try again.");
+      setStatus("idle");
+    }
   }
 
   if (status === "done") {
@@ -45,6 +68,7 @@ export function SubmittableForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {children}
+      {error && <p className="text-sm text-red-500">{error}</p>}
       <Button type="submit" variant="gold" className="w-full sm:w-auto">
         {status === "submitting" ? "Sending…" : submitLabel}
       </Button>

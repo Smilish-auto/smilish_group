@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { BedDouble, Bath, Ruler, MapPin } from "lucide-react";
-import type { Property } from "@/lib/data/real-estate";
+import type { PropertyRow } from "@/lib/supabase/types";
 import { formatNaira } from "@/lib/format";
 import { PlaceholderArt } from "./PlaceholderArt";
 
-const statusStyles: Record<Property["status"], string> = {
+const statusStyles: Record<PropertyRow["status"], string> = {
   Available: "bg-gold text-navy-deep",
   Reserved: "bg-white/90 text-navy-deep",
   Sold: "bg-ink text-white",
@@ -12,7 +12,7 @@ const statusStyles: Record<Property["status"], string> = {
   Unavailable: "bg-ink/60 text-white",
 };
 
-export function PropertyCard({ property }: { property: Property }) {
+export function PropertyCard({ property }: { property: PropertyRow }) {
   return (
     <Link
       href={`/real-estate/property/${property.slug}`}
@@ -26,7 +26,7 @@ export function PropertyCard({ property }: { property: Property }) {
           {property.status}
         </span>
         <span className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-navy-deep">
-          {property.transactionType}
+          {property.transaction_type}
         </span>
       </div>
       <div className="p-5">
@@ -39,23 +39,23 @@ export function PropertyCard({ property }: { property: Property }) {
         <p className="mt-2 font-mono text-base text-navy">
           {formatNaira(property.price)}
           <span className="ml-1 text-xs text-navy/50">
-            {property.priceUnit !== "total" ? `/ ${property.priceUnit.replace("per ", "")}` : ""}
+            {property.price_unit !== "total" ? `/ ${property.price_unit.replace("per ", "")}` : ""}
           </span>
         </p>
         <div className="mt-4 flex items-center gap-4 border-t border-line pt-4 text-xs text-navy/55">
-          {property.bedrooms !== undefined && (
+          {property.bedrooms !== null && (
             <span className="flex items-center gap-1">
               <BedDouble size={14} /> {property.bedrooms}
             </span>
           )}
-          {property.bathrooms !== undefined && (
+          {property.bathrooms !== null && (
             <span className="flex items-center gap-1">
               <Bath size={14} /> {property.bathrooms}
             </span>
           )}
-          {(property.landSizeSqm || property.areaSqm) && (
+          {(property.land_size_sqm || property.area_sqm) && (
             <span className="flex items-center gap-1">
-              <Ruler size={14} /> {property.landSizeSqm ?? property.areaSqm} sqm
+              <Ruler size={14} /> {property.land_size_sqm ?? property.area_sqm} sqm
             </span>
           )}
         </div>

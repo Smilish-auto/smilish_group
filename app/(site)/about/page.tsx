@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Shirt, Cpu, Building2 } from "lucide-react";
 import { Eyebrow, SectionHeading } from "@/components/SectionHeading";
 import { BusinessCard } from "@/components/BusinessCard";
@@ -148,23 +149,48 @@ export default function AboutPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-8 sm:pb-28">
-        <div className="grid gap-10 rounded-2xl border border-line bg-white p-8 sm:p-12 md:grid-cols-2">
-          <div>
-            <Eyebrow>Leadership</Eyebrow>
-            <p className="mt-5 text-base leading-relaxed text-navy/70">
-              Smilish Group is led by a small, hands-on team spanning design, engineering and
-              operations — each business run by people close to the work, with the founder setting
-              the standard across the group.
-            </p>
+        <SectionHeading eyebrow="Leadership" title="Meet the founder" />
+        <div className="mt-12 grid gap-10 rounded-2xl border border-line bg-white p-8 sm:p-12 md:grid-cols-[280px_1fr] md:items-start">
+          <div className="relative aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-2xl">
+            <Image
+              src="/images/founder.jpg"
+              alt="Iyanda Adedayo, Founder of Smilish Group"
+              fill
+              className="object-cover"
+              sizes="280px"
+              priority
+            />
           </div>
           <div>
-            <Eyebrow>Future Vision</Eyebrow>
+            <p className="font-display text-2xl font-medium text-navy-deep">Iyanda Adedayo</p>
+            <p className="mt-1 font-mono text-xs uppercase tracking-[0.14em] text-gold">
+              Founder, Smilish Group
+            </p>
             <p className="mt-5 text-base leading-relaxed text-navy/70">
-              The next chapter is scale without losing craft — growing each business into a category
-              leader in its own right, while staying disciplined about quality, trust and long-term
-              value creation.
+              Iyanda founded Smilish Group at the intersection of two crafts he already had: a
+              trained eye for fashion design, and a Computer Science background spent building AI
+              automations and workflows for businesses. Smilish Fashion and Smilish AI Automation
+              grew out of that combination directly — one turns fabric into identity, the other
+              turns repetitive work into time back. Smilish Real Estate rounds out the group as its
+              long-term asset play, held to the same standard of quality and trust as the other two.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-navy/70">
+              His approach is hands-on by default — every business under the group is one he&apos;s
+              either built himself or built the systems behind, with the goal of eventually running
+              well beyond just him.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-8 sm:pb-28">
+        <div className="rounded-2xl border border-line bg-mist p-8 sm:p-12">
+          <Eyebrow>Future Vision</Eyebrow>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-navy/70">
+            The next chapter is scale without losing craft — growing each business into a category
+            leader in its own right, while staying disciplined about quality, trust and long-term
+            value creation.
+          </p>
         </div>
       </section>
 

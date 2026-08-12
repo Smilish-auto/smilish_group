@@ -21,8 +21,7 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { GlossyBackdrop } from "@/components/GlossyBackdrop";
 import { AutomationAuditForm } from "@/components/form/AutomationAuditForm";
 import { CTA } from "@/components/CTA";
-import { featuredAutomationServices } from "@/lib/data/automation";
-import { automationProjects } from "@/lib/data/automation";
+import { getFeaturedAutomationServices, getAutomationProjects } from "@/lib/supabase/queries";
 
 export const metadata: Metadata = {
   title: "Smilish AI Automation",
@@ -55,7 +54,11 @@ const whoWeHelp = [
   { icon: Briefcase, label: "B2B Services" },
 ];
 
-export default function AutomationHubPage() {
+export default async function AutomationHubPage() {
+  const [featuredAutomationServices, automationProjects] = await Promise.all([
+    getFeaturedAutomationServices(),
+    getAutomationProjects(),
+  ]);
   return (
     <>
       <section className="relative overflow-hidden bg-navy-deep">
@@ -170,7 +173,7 @@ export default function AutomationHubPage() {
                 className="group rounded-2xl border border-line bg-white p-7 transition-shadow hover:shadow-[0_20px_45px_-25px_rgba(11,31,58,0.35)]"
               >
                 <p className="font-mono text-[11px] uppercase tracking-wide text-navy/40">
-                  {p.clientBusiness}
+                  {p.client_business}
                 </p>
                 <h3 className="mt-2 font-display text-xl font-medium text-navy-deep">{p.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-navy/60">{p.problem}</p>

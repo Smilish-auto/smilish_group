@@ -6,7 +6,9 @@ import { Eyebrow, SectionHeading } from "@/components/SectionHeading";
 import { PropertyCard } from "@/components/PropertyCard";
 import { CTA } from "@/components/CTA";
 import { GlossyBackdrop } from "@/components/GlossyBackdrop";
-import { featuredProperties, propertyTypes, propertyStates } from "@/lib/data/real-estate";
+import { getFeaturedProperties, getPropertyFilterOptions } from "@/lib/supabase/queries";
+
+const PROPERTY_TYPES = ["Land", "House", "Apartment", "Office", "Shop", "Commercial", "Estate"];
 
 export const metadata: Metadata = {
   title: "Smilish Real Estate",
@@ -20,7 +22,12 @@ const whySmilish = [
   { icon: MapPinned, title: "Local Expertise", detail: "Our agents know these neighbourhoods and will walk the property with you." },
 ];
 
-export default function RealEstateHubPage() {
+export default async function RealEstateHubPage() {
+  const [featuredProperties, filterOptions] = await Promise.all([
+    getFeaturedProperties(),
+    getPropertyFilterOptions(),
+  ]);
+
   return (
     <>
       <section className="relative overflow-hidden bg-navy-deep">
@@ -69,7 +76,7 @@ export default function RealEstateHubPage() {
               className="rounded-lg border border-line px-4 py-3 text-sm text-navy-deep outline-none focus:border-navy"
             >
               <option value="">Property Type</option>
-              {propertyTypes.map((t) => (
+              {PROPERTY_TYPES.map((t) => (
                 <option key={t} value={t}>
                   {t}
                 </option>
@@ -92,7 +99,7 @@ export default function RealEstateHubPage() {
               className="rounded-lg border border-line px-4 py-3 text-sm text-navy-deep outline-none focus:border-navy"
             >
               <option value="">State</option>
-              {propertyStates.map((s) => (
+              {filterOptions.states.map((s) => (
                 <option key={s} value={s}>
                   {s}
                 </option>

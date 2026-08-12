@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import type { AutomationService } from "@/lib/data/automation";
+import type { AutomationServiceRow } from "@/lib/supabase/types";
 
-export function ServiceCard({ service }: { service: AutomationService }) {
+export function ServiceCard({ service }: { service: AutomationServiceRow }) {
   return (
     <Link
       href={`/automation/service/${service.slug}`}
@@ -11,7 +11,7 @@ export function ServiceCard({ service }: { service: AutomationService }) {
       <div>
         <div className="flex items-start justify-between gap-3">
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-gold-soft">
-            {service.pricingType}
+            {service.pricing_type}
           </p>
           <ArrowUpRight
             size={16}

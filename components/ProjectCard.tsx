@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import type { UnifiedProject } from "@/lib/data/projects";
+import type { UnifiedProject } from "@/lib/supabase/queries";
 
 const branchStyles: Record<UnifiedProject["branch"], string> = {
   Fashion: "text-gold border-gold/30",

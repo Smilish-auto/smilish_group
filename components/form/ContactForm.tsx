@@ -7,6 +7,8 @@ export function ContactForm() {
       submitLabel="Send Message"
       successTitle="Message received"
       successBody="Thanks for reaching out — someone from the Smilish Group team will get back to you within one business day."
+      endpoint="/api/leads"
+      extraFields={{ formType: "Contact Form" }}
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <TextField label="Full Name" name="name" required placeholder="Your name" />

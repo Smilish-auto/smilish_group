@@ -4,13 +4,9 @@ import { notFound } from "next/navigation";
 import { ChevronLeft, MapPin, BedDouble, Bath, Ruler, FileCheck, Phone } from "lucide-react";
 import { Button } from "@/components/Button";
 import { PlaceholderArt } from "@/components/PlaceholderArt";
-import { properties } from "@/lib/data/real-estate";
+import { getPropertyBySlug } from "@/lib/supabase/queries";
 import { formatNaira } from "@/lib/format";
 import { CTA } from "@/components/CTA";
-
-export function generateStaticParams() {
-  return properties.map((p) => ({ slug: p.slug }));
-}
 
 export async function generateMetadata({
   params,
@@ -18,9 +14,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const property = properties.find((p) => p.slug === slug);
+  const property = await getPropertyBySlug(slug);
   if (!property) return {};
-  return { title: property.title, description: property.description };
+  return { title: property.title, description: property.description ?? undefined };
 }
 
 const statusStyles: Record<string, string> = {
@@ -37,7 +33,7 @@ export default async function PropertyDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const property = properties.find((p) => p.slug === slug);
+  const property = await getPropertyBySlug(slug);
   if (!property) notFound();
 
   return (
@@ -77,54 +73,62 @@ export default async function PropertyDetailPage({
             </h1>
             <p className="mt-4 font-mono text-2xl text-navy">
               {formatNaira(property.price)}
-              {property.priceUnit !== "total" && (
-                <span className="ml-1.5 text-sm text-navy/50">/ {property.priceUnit.replace("per ", "")}</span>
+              {property.price_unit !== "total" && (
+                <span className="ml-1.5 text-sm text-navy/50">/ {property.price_unit.replace("per ", "")}</span>
               )}
             </p>
 
             <div className="mt-6 flex flex-wrap gap-6 border-y border-line py-5 text-sm text-navy/70">
-              {property.bedrooms !== undefined && (
+              {property.bedrooms !== null && (
                 <span className="flex items-center gap-2">
                   <BedDouble size={16} /> {property.bedrooms} Bedrooms
                 </span>
               )}
-              {property.bathrooms !== undefined && (
+              {property.bathrooms !== null && (
                 <span className="flex items-center gap-2">
                   <Bath size={16} /> {property.bathrooms} Bathrooms
                 </span>
               )}
-              {(property.landSizeSqm || property.areaSqm) && (
+              {(property.land_size_sqm || property.area_sqm) && (
                 <span className="flex items-center gap-2">
-                  <Ruler size={16} /> {property.landSizeSqm ?? property.areaSqm} sqm
+                  <Ruler size={16} /> {property.land_size_sqm ?? property.area_sqm} sqm
                 </span>
               )}
-              <span className="flex items-center gap-2">
-                <FileCheck size={16} /> {property.documentation}
-              </span>
+              {property.documentation_status && (
+                <span className="flex items-center gap-2">
+                  <FileCheck size={16} /> {property.documentation_status}
+                </span>
+              )}
             </div>
 
             <p className="mt-6 text-base leading-relaxed text-navy/65">{property.description}</p>
 
-            <div className="mt-8">
-              <p className="font-mono text-[11px] uppercase tracking-wide text-navy/40">Features</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {property.features.map((f) => (
-                  <span key={f} className="rounded-full bg-mist px-3 py-1.5 text-xs text-navy-deep">
-                    {f}
-                  </span>
-                ))}
+            {property.features.length > 0 && (
+              <div className="mt-8">
+                <p className="font-mono text-[11px] uppercase tracking-wide text-navy/40">Features</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {property.features.map((f) => (
+                    <span key={f} className="rounded-full bg-mist px-3 py-1.5 text-xs text-navy-deep">
+                      {f}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <aside className="h-fit rounded-2xl border border-line bg-mist p-6">
             <p className="font-mono text-[11px] uppercase tracking-wide text-navy/40">Agent</p>
-            <p className="mt-2 font-display text-lg font-medium text-navy-deep">{property.agentName}</p>
+            <p className="mt-2 font-display text-lg font-medium text-navy-deep">{property.agent_name}</p>
             <p className="mt-1 flex items-center gap-1.5 text-sm text-navy/60">
-              <Phone size={14} /> {property.agentPhone}
+              <Phone size={14} /> {property.agent_phone}
             </p>
             <div className="mt-6 flex flex-col gap-3">
-              <Button href="/real-estate/inspection" variant="navy" className="w-full">
+              <Button
+                href={`/real-estate/inspection?property=${encodeURIComponent(property.title)}`}
+                variant="navy"
+                className="w-full"
+              >
                 Book Inspection
               </Button>
               <Button href="/contact" variant="ghost-dark" className="w-full">

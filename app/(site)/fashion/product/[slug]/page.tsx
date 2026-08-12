@@ -4,13 +4,9 @@ import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/Button";
 import { PlaceholderArt } from "@/components/PlaceholderArt";
-import { fashionProducts } from "@/lib/data/fashion";
+import { getFashionProductBySlug } from "@/lib/supabase/queries";
 import { formatNaira } from "@/lib/format";
 import { CTA } from "@/components/CTA";
-
-export function generateStaticParams() {
-  return fashionProducts.map((p) => ({ slug: p.slug }));
-}
 
 export async function generateMetadata({
   params,
@@ -18,9 +14,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = fashionProducts.find((p) => p.slug === slug);
+  const product = await getFashionProductBySlug(slug);
   if (!product) return {};
-  return { title: product.name, description: product.description };
+  return { title: product.name, description: product.description ?? undefined };
 }
 
 export default async function FashionProductPage({
@@ -29,7 +25,7 @@ export default async function FashionProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = fashionProducts.find((p) => p.slug === slug);
+  const product = await getFashionProductBySlug(slug);
   if (!product) notFound();
 
   const outOfStock = product.status === "Out of Stock";
@@ -75,7 +71,7 @@ export default async function FashionProductPage({
               <div>
                 <dt className="font-mono text-[11px] uppercase tracking-wide text-navy/40">Availability</dt>
                 <dd className="mt-1 text-sm text-navy-deep">
-                  {outOfStock ? "Out of Stock" : `${product.stock} in stock`}
+                  {outOfStock ? "Out of Stock" : `${product.stock_quantity} in stock`}
                 </dd>
               </div>
             </dl>

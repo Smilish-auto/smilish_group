@@ -8,8 +8,8 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { CustomDesignForm } from "@/components/form/CustomDesignForm";
 import { CTA } from "@/components/CTA";
 import { GlossyBackdrop } from "@/components/GlossyBackdrop";
-import { fashionCategories, featuredFashionProducts } from "@/lib/data/fashion";
-import { projects } from "@/lib/data/projects";
+import { fashionCategories } from "@/lib/data/fashion";
+import { getFeaturedFashionProducts, getUnifiedProjects } from "@/lib/supabase/queries";
 
 export const metadata: Metadata = {
   title: "Smilish Fashion",
@@ -23,8 +23,12 @@ const whySmilish = [
   { icon: Sparkles, title: "Culture-Forward Design", detail: "Every collection is rooted in African design language, reimagined for today." },
 ];
 
-export default function FashionHubPage() {
-  const fashionProjects = projects.filter((p) => p.branch === "Fashion").slice(0, 3);
+export default async function FashionHubPage() {
+  const [featuredFashionProducts, allProjects] = await Promise.all([
+    getFeaturedFashionProducts(),
+    getUnifiedProjects(),
+  ]);
+  const fashionProjects = allProjects.filter((p) => p.branch === "Fashion").slice(0, 3);
 
   return (
     <>

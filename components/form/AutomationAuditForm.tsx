@@ -7,6 +7,8 @@ export function AutomationAuditForm() {
       submitLabel="Request Free Audit"
       successTitle="Audit request received"
       successBody="We'll review your business details and follow up with a short automation audit call within 48 hours."
+      endpoint="/api/leads"
+      extraFields={{ formType: "Automation Audit Request", branch: "AI Automation" }}
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <TextField label="Full Name" name="name" required placeholder="Your name" />

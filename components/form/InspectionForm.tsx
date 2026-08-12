@@ -7,6 +7,7 @@ export function InspectionForm({ propertyTitle }: { propertyTitle?: string }) {
       submitLabel="Book Inspection"
       successTitle="Inspection requested"
       successBody="An agent will call to confirm your inspection date and time shortly."
+      endpoint="/api/inspections"
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <TextField label="Full Name" name="name" required placeholder="Your name" />

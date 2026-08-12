@@ -12,10 +12,12 @@ import { CTA } from "@/components/CTA";
 import { Reveal } from "@/components/Reveal";
 import { HeroBackground } from "@/components/HeroBackground";
 import { getHeroBackground } from "@/lib/supabase/site-content";
-import { featuredFashionProducts } from "@/lib/data/fashion";
-import { featuredAutomationServices } from "@/lib/data/automation";
-import { featuredProperties } from "@/lib/data/real-estate";
-import { featuredProjects } from "@/lib/data/projects";
+import {
+  getFeaturedFashionProducts,
+  getFeaturedAutomationServices,
+  getFeaturedProperties,
+  getFeaturedUnifiedProjects,
+} from "@/lib/supabase/queries";
 
 const businesses = [
   {
@@ -64,7 +66,14 @@ const process = [
 ];
 
 export default async function HomePage() {
-  const heroBackground = await getHeroBackground();
+  const [heroBackground, featuredFashionProducts, featuredAutomationServices, featuredProperties, featuredProjects] =
+    await Promise.all([
+      getHeroBackground(),
+      getFeaturedFashionProducts(),
+      getFeaturedAutomationServices(),
+      getFeaturedProperties(),
+      getFeaturedUnifiedProjects(),
+    ]);
 
   return (
     <>

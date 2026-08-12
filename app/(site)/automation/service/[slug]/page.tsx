@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, Check } from "lucide-react";
-import { automationServices } from "@/lib/data/automation";
+import { getAutomationServiceBySlug } from "@/lib/supabase/queries";
 import { CTA } from "@/components/CTA";
-
-export function generateStaticParams() {
-  return automationServices.map((s) => ({ slug: s.slug }));
-}
 
 export async function generateMetadata({
   params,
@@ -15,9 +11,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const service = automationServices.find((s) => s.slug === slug);
+  const service = await getAutomationServiceBySlug(slug);
   if (!service) return {};
-  return { title: service.name, description: service.summary };
+  return { title: service.name, description: service.summary ?? undefined };
 }
 
 export default async function AutomationServicePage({
@@ -26,7 +22,7 @@ export default async function AutomationServicePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const service = automationServices.find((s) => s.slug === slug);
+  const service = await getAutomationServiceBySlug(slug);
   if (!service) notFound();
 
   return (
@@ -40,7 +36,7 @@ export default async function AutomationServicePage({
             <ChevronLeft size={16} /> Back to Services
           </Link>
           <p className="mt-8 font-mono text-xs uppercase tracking-[0.14em] text-gold-soft">
-            {service.pricingType}
+            {service.pricing_type}
           </p>
           <h1 className="mt-3 font-display text-4xl font-medium text-white sm:text-5xl">
             {service.name}

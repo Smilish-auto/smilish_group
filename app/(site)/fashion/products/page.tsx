@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow } from "@/components/SectionHeading";
 import { ProductCard } from "@/components/ProductCard";
-import { fashionCategories, fashionProducts } from "@/lib/data/fashion";
+import { fashionCategories } from "@/lib/data/fashion";
+import { getFashionProducts } from "@/lib/supabase/queries";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -15,9 +16,7 @@ export default async function FashionProductsPage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const filtered = category
-    ? fashionProducts.filter((p) => p.category === category)
-    : fashionProducts;
+  const filtered = await getFashionProducts(category);
 
   return (
     <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">

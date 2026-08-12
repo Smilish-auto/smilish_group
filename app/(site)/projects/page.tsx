@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow } from "@/components/SectionHeading";
 import { ProjectCard } from "@/components/ProjectCard";
-import { projects, type ProjectBranch } from "@/lib/data/projects";
+import { getUnifiedProjects, type UnifiedProject } from "@/lib/supabase/queries";
 
 export const metadata: Metadata = {
   title: "Projects",
   description: "Explore recent projects across Smilish Fashion, AI Automation and Real Estate.",
 };
 
-const filters: ("All" | ProjectBranch)[] = ["All", "Fashion", "AI Automation", "Real Estate"];
+const filters: ("All" | UnifiedProject["branch"])[] = ["All", "Fashion", "AI Automation", "Real Estate"];
 
 export default async function ProjectsPage({
   searchParams,
@@ -18,6 +18,7 @@ export default async function ProjectsPage({
 }) {
   const { branch } = await searchParams;
   const active = branch ?? "All";
+  const projects = await getUnifiedProjects();
   const filtered = active === "All" ? projects : projects.filter((p) => p.branch === active);
 
   return (
@@ -42,11 +43,15 @@ export default async function ProjectsPage({
         ))}
       </div>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((p) => (
-          <ProjectCard key={`${p.branch}-${p.slug}`} project={p} />
-        ))}
-      </div>
+      {filtered.length === 0 ? (
+        <p className="mt-10 text-sm text-navy/50">Nothing published in this category yet.</p>
+      ) : (
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((p) => (
+            <ProjectCard key={`${p.branch}-${p.slug}`} project={p} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
