@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { ImageUploadField } from "./ImageUploadField";
+import { MediaPicker } from "./MediaPicker";
 
 type BackgroundType = "gradient" | "image";
 
@@ -66,7 +66,11 @@ export function HeroSettingsForm({
       </div>
 
       {type === "image" && (
-        <ImageUploadField label="Hero Image" value={imageUrl} onChange={setImageUrl} folder="site" />
+        <div className="space-y-2">
+          <span className="block font-mono text-xs uppercase tracking-[0.1em] text-navy/60">Hero Image</span>
+          <MediaPicker value={imageUrl} onChange={setImageUrl} />
+          <p className="text-xs text-navy/45">Choose an image that has already been uploaded to Media Library.</p>
+        </div>
       )}
 
       {error && <p className="text-sm text-red-500">{error}</p>}

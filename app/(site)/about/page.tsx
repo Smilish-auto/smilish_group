@@ -5,7 +5,8 @@ import { Eyebrow, SectionHeading } from "@/components/SectionHeading";
 import { BusinessCard } from "@/components/BusinessCard";
 import { TriMark } from "@/components/Mark";
 import { CTA } from "@/components/CTA";
-import { GlossyBackdrop } from "@/components/GlossyBackdrop";
+import { getPageHeroImage } from "@/lib/supabase/site-content";
+import { HeroBackground } from "@/components/HeroBackground";
 
 export const metadata: Metadata = {
   title: "About",
@@ -59,11 +60,13 @@ const businesses = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const heroImage = await getPageHeroImage("about");
+
   return (
     <>
       <section className="relative overflow-hidden bg-navy-deep">
-        <GlossyBackdrop />
+        <HeroBackground setting={{ type: heroImage ? "image" : "gradient", image_url: heroImage || undefined }} />
         <div className="relative mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
           <div className="animate-fade-up">
             <Eyebrow tone="light">Our Story</Eyebrow>

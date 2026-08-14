@@ -17,7 +17,7 @@ const LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function Navbar() {
+export function Navbar({ logoUrl = "" }: { logoUrl?: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -40,10 +40,13 @@ export function Navbar() {
         aria-label="Primary"
       >
         <Link href="/" className="flex items-center gap-2.5" aria-label="Smilish Group home">
-          <Monogram className="h-8 w-8" />
-          <span className="font-display text-lg font-medium tracking-wide text-white">
-            Smilish Group
-          </span>
+          {logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={logoUrl} alt="Smilish Group" className="h-9 w-9 rounded object-contain" />
+          ) : (
+            <Monogram className="h-8 w-8" />
+          )}
+          <span className="font-display text-lg font-medium tracking-wide text-white">Smilish Group</span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

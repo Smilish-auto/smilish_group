@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { getSiteLogo } from "@/lib/supabase/site-content";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://smilishgroup.com"),
@@ -20,13 +21,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const logoUrl = await getSiteLogo();
+
   return (
     <html lang="en">
       <body className="font-body antialiased">
-        <Navbar />
+        <Navbar logoUrl={logoUrl} />
         <main>{children}</main>
-        <Footer />
+        <Footer logoUrl={logoUrl} />
       </body>
     </html>
   );

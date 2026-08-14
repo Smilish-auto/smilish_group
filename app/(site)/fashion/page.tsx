@@ -7,7 +7,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { ProjectCard } from "@/components/ProjectCard";
 import { CustomDesignForm } from "@/components/form/CustomDesignForm";
 import { CTA } from "@/components/CTA";
-import { GlossyBackdrop } from "@/components/GlossyBackdrop";
+import { getPageHeroImage } from "@/lib/supabase/site-content";
+import { HeroBackground } from "@/components/HeroBackground";
 import { fashionCategories } from "@/lib/data/fashion";
 import { getFeaturedFashionProducts, getUnifiedProjects } from "@/lib/supabase/queries";
 
@@ -24,6 +25,7 @@ const whySmilish = [
 ];
 
 export default async function FashionHubPage() {
+  const heroImage = await getPageHeroImage("fashion");
   const [featuredFashionProducts, allProjects] = await Promise.all([
     getFeaturedFashionProducts(),
     getUnifiedProjects(),
@@ -33,7 +35,7 @@ export default async function FashionHubPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-navy-deep">
-        <GlossyBackdrop />
+        <HeroBackground setting={{ type: heroImage ? "image" : "gradient", image_url: heroImage || undefined }} />
         <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <div className="animate-fade-up">
             <Eyebrow tone="light">Smilish Fashion</Eyebrow>

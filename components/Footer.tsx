@@ -21,14 +21,19 @@ const COLUMNS = [
   },
 ];
 
-export function Footer() {
+export function Footer({ logoUrl = "" }: { logoUrl?: string }) {
   return (
     <footer className="bg-navy-deep text-white/70">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
             <Link href="/" className="flex items-center gap-2.5">
-              <Monogram className="h-8 w-8" />
+              {logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={logoUrl} alt="Smilish Group" className="h-9 w-9 rounded object-contain" />
+              ) : (
+                <Monogram className="h-8 w-8" />
+              )}
               <span className="font-display text-lg font-medium text-white">Smilish Group</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/55">

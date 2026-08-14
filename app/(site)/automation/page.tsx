@@ -18,7 +18,8 @@ import {
 import { Button } from "@/components/Button";
 import { Eyebrow, SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
-import { GlossyBackdrop } from "@/components/GlossyBackdrop";
+import { getPageHeroImage } from "@/lib/supabase/site-content";
+import { HeroBackground } from "@/components/HeroBackground";
 import { AutomationAuditForm } from "@/components/form/AutomationAuditForm";
 import { CTA } from "@/components/CTA";
 import { getFeaturedAutomationServices, getAutomationProjects } from "@/lib/supabase/queries";
@@ -55,6 +56,7 @@ const whoWeHelp = [
 ];
 
 export default async function AutomationHubPage() {
+  const heroImage = await getPageHeroImage("automation");
   const [featuredAutomationServices, automationProjects] = await Promise.all([
     getFeaturedAutomationServices(),
     getAutomationProjects(),
@@ -62,7 +64,7 @@ export default async function AutomationHubPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-navy-deep">
-        <GlossyBackdrop />
+        <HeroBackground setting={{ type: heroImage ? "image" : "gradient", image_url: heroImage || undefined }} />
         <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
           <div className="animate-fade-up">
             <Eyebrow tone="light">Smilish AI Automation</Eyebrow>
