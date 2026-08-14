@@ -8,11 +8,14 @@ import type {
 } from "./types";
 
 // Every function here is safe to call even before Supabase is configured or
-// seeded — on any error (bad env vars, empty table, RLS issue) it returns an
-// empty array/null rather than throwing, so pages degrade to an empty state
-// instead of crashing.
+// seeded — on ANY error (missing/bad env vars, empty table, RLS issue,
+// network failure) it returns an empty array/null rather than throwing, so
+// pages degrade to an empty state instead of crashing the whole request.
+// Client creation happens INSIDE the try/catch here deliberately — Supabase
+// throws synchronously if the URL/key env vars are missing, and that needs
+// to be caught too, not just query errors.
 
-async function safeQuery<T>(fn: () => PromiseLike<{ data: T | null; error: unknown }>): Promise<T | null> {
+async function safeQuery<T>(fn: () => Promise<{ data: T | null; error: unknown }>): Promise<T | null> {
   try {
     const { data, error } = await fn();
     if (error) return null;
@@ -26,40 +29,50 @@ async function safeQuery<T>(fn: () => PromiseLike<{ data: T | null; error: unkno
 // Fashion — Products
 // ---------------------------------------------------------------------------
 export async function getFashionProducts(category?: string): Promise<FashionProductRow[]> {
-  const supabase = await createClient();
-  let query = supabase.from("fashion_products").select("*").order("created_at", { ascending: false });
-  if (category) query = query.eq("category", category);
-  return (await safeQuery(() => query)) ?? [];
+  return (
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      let query = supabase.from("fashion_products").select("*").order("created_at", { ascending: false });
+      if (category) query = query.eq("category", category);
+      return query;
+    })) ?? []
+  );
 }
 
 export async function getFeaturedFashionProducts(): Promise<FashionProductRow[]> {
-  const supabase = await createClient();
   return (
-    (await safeQuery(() =>
-      supabase.from("fashion_products").select("*").eq("featured", true).order("created_at", { ascending: false }).limit(6)
-    )) ?? []
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      return supabase.from("fashion_products").select("*").eq("featured", true).order("created_at", { ascending: false }).limit(6);
+    })) ?? []
   );
 }
 
 export async function getFashionProductBySlug(slug: string): Promise<FashionProductRow | null> {
-  const supabase = await createClient();
-  return await safeQuery(() => supabase.from("fashion_products").select("*").eq("slug", slug).maybeSingle());
+  return await safeQuery(async () => {
+    const supabase = await createClient();
+    return supabase.from("fashion_products").select("*").eq("slug", slug).maybeSingle();
+  });
 }
 
 // ---------------------------------------------------------------------------
 // Fashion — Projects
 // ---------------------------------------------------------------------------
 export async function getFashionProjects(): Promise<FashionProjectRow[]> {
-  const supabase = await createClient();
-  return (await safeQuery(() => supabase.from("fashion_projects").select("*").order("project_date", { ascending: false }))) ?? [];
+  return (
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      return supabase.from("fashion_projects").select("*").order("project_date", { ascending: false });
+    })) ?? []
+  );
 }
 
 export async function getFeaturedFashionProjects(): Promise<FashionProjectRow[]> {
-  const supabase = await createClient();
   return (
-    (await safeQuery(() =>
-      supabase.from("fashion_projects").select("*").eq("featured", true).order("project_date", { ascending: false }).limit(3)
-    )) ?? []
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      return supabase.from("fashion_projects").select("*").eq("featured", true).order("project_date", { ascending: false }).limit(3);
+    })) ?? []
   );
 }
 
@@ -67,38 +80,48 @@ export async function getFeaturedFashionProjects(): Promise<FashionProjectRow[]>
 // AI Automation — Services
 // ---------------------------------------------------------------------------
 export async function getAutomationServices(): Promise<AutomationServiceRow[]> {
-  const supabase = await createClient();
-  return (await safeQuery(() => supabase.from("automation_services").select("*").order("created_at", { ascending: false }))) ?? [];
+  return (
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      return supabase.from("automation_services").select("*").order("created_at", { ascending: false });
+    })) ?? []
+  );
 }
 
 export async function getFeaturedAutomationServices(): Promise<AutomationServiceRow[]> {
-  const supabase = await createClient();
   return (
-    (await safeQuery(() =>
-      supabase.from("automation_services").select("*").eq("featured", true).order("created_at", { ascending: false }).limit(6)
-    )) ?? []
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      return supabase.from("automation_services").select("*").eq("featured", true).order("created_at", { ascending: false }).limit(6);
+    })) ?? []
   );
 }
 
 export async function getAutomationServiceBySlug(slug: string): Promise<AutomationServiceRow | null> {
-  const supabase = await createClient();
-  return await safeQuery(() => supabase.from("automation_services").select("*").eq("slug", slug).maybeSingle());
+  return await safeQuery(async () => {
+    const supabase = await createClient();
+    return supabase.from("automation_services").select("*").eq("slug", slug).maybeSingle();
+  });
 }
 
 // ---------------------------------------------------------------------------
 // AI Automation — Projects (case studies)
 // ---------------------------------------------------------------------------
 export async function getAutomationProjects(): Promise<AutomationProjectRow[]> {
-  const supabase = await createClient();
-  return (await safeQuery(() => supabase.from("automation_projects").select("*").order("project_date", { ascending: false }))) ?? [];
+  return (
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      return supabase.from("automation_projects").select("*").order("project_date", { ascending: false });
+    })) ?? []
+  );
 }
 
 export async function getFeaturedAutomationProjects(): Promise<AutomationProjectRow[]> {
-  const supabase = await createClient();
   return (
-    (await safeQuery(() =>
-      supabase.from("automation_projects").select("*").eq("featured", true).order("project_date", { ascending: false }).limit(3)
-    )) ?? []
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      return supabase.from("automation_projects").select("*").eq("featured", true).order("project_date", { ascending: false }).limit(3);
+    })) ?? []
   );
 }
 
@@ -116,40 +139,44 @@ export interface PropertyFilters {
 }
 
 export async function getProperties(filters: PropertyFilters = {}): Promise<PropertyRow[]> {
-  const supabase = await createClient();
-  let query = supabase.from("properties").select("*").order("created_at", { ascending: false });
-
-  if (filters.location) query = query.ilike("location", `%${filters.location}%`);
-  if (filters.type) query = query.eq("property_type", filters.type);
-  if (filters.transaction) query = query.eq("transaction_type", filters.transaction);
-  if (filters.state) query = query.eq("state", filters.state);
-  if (filters.min) query = query.gte("price", filters.min);
-  if (filters.max) query = query.lte("price", filters.max);
-  if (filters.bedrooms) query = query.gte("bedrooms", filters.bedrooms);
-
-  return (await safeQuery(() => query)) ?? [];
+  return (
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      let query = supabase.from("properties").select("*").order("created_at", { ascending: false });
+      if (filters.location) query = query.ilike("location", `%${filters.location}%`);
+      if (filters.type) query = query.eq("property_type", filters.type);
+      if (filters.transaction) query = query.eq("transaction_type", filters.transaction);
+      if (filters.state) query = query.eq("state", filters.state);
+      if (filters.min) query = query.gte("price", filters.min);
+      if (filters.max) query = query.lte("price", filters.max);
+      if (filters.bedrooms) query = query.gte("bedrooms", filters.bedrooms);
+      return query;
+    })) ?? []
+  );
 }
 
 export async function getFeaturedProperties(): Promise<PropertyRow[]> {
-  const supabase = await createClient();
   return (
-    (await safeQuery(() =>
-      supabase.from("properties").select("*").eq("featured", true).order("created_at", { ascending: false }).limit(6)
-    )) ?? []
+    (await safeQuery(async () => {
+      const supabase = await createClient();
+      return supabase.from("properties").select("*").eq("featured", true).order("created_at", { ascending: false }).limit(6);
+    })) ?? []
   );
 }
 
 export async function getPropertyBySlug(slug: string): Promise<PropertyRow | null> {
-  const supabase = await createClient();
-  return await safeQuery(() => supabase.from("properties").select("*").eq("slug", slug).maybeSingle());
+  return await safeQuery(async () => {
+    const supabase = await createClient();
+    return supabase.from("properties").select("*").eq("slug", slug).maybeSingle();
+  });
 }
 
 export async function getPropertyFilterOptions(): Promise<{ types: string[]; states: string[] }> {
-  const supabase = await createClient();
   const rows =
-    (await safeQuery<{ property_type: string | null; state: string | null }[]>(() =>
-      supabase.from("properties").select("property_type, state")
-    )) ?? [];
+    (await safeQuery<{ property_type: string | null; state: string | null }[]>(async () => {
+      const supabase = await createClient();
+      return supabase.from("properties").select("property_type, state");
+    })) ?? [];
   const types = Array.from(new Set(rows.map((r) => r.property_type).filter(Boolean))) as string[];
   const states = Array.from(new Set(rows.map((r) => r.state).filter(Boolean))) as string[];
   return { types, states };
